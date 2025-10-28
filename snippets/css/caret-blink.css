@@ -1,0 +1,9 @@
+@keyframes caret-blink {
+  50% {
+    caret-color: transparent;
+  }
+}
+
+input {
+  animation: caret-blink 1s infinite alternate;
+}
