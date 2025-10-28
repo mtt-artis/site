@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# has to read the entire file into memory
+contents=$(grep 'dave' /usr/share/dict/words)
+
+while read -r line; do
+	echo "$line"
+done <<< "$contents"
+
+# will stream the file
+while read -r line; do
+	echo "$line"
+done < <(grep 'dave' /usr/share/dict/words)

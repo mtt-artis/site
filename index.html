@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/site" />
+  <title>Hire me</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- 
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-tsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-sql.min.js"></script> 
+  -->
+</head>
+
+<body class="font-mono leading-relaxed text-zinc-200 bg-zinc-900 md:p-6 md:bg-zinc-300">
+  <style>
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #333;
+      border-radius: 4px;
+    }
+
+    body:has(#is-term-open:not(:checked)) {
+      background-color: var(--color-zinc-300);
+    }
+
+    section {
+      display: none;
+    }
+
+    body:not(:has(#last-read:target)) #tab-about-me {
+      display: grid;
+    }
+
+    body:has(#last-read:target) #tab-last-read {
+      display: grid;
+    }
+
+    @keyframes slide-fade-in {
+      from {
+        opacity: 0;
+        box-shadow: none;
+        transform: scale(.8) translateY(15vh);
+      }
+    }
+
+    section {
+      margin-block-end: 8rem;
+
+      @media (prefers-reduced-motion: no-preference) {
+        @supports (animation-timeline: view()) {
+          & :where(h2, p, ul.space-y-1>li) {
+            width: fit-content;
+            animation: slide-fade-in both;
+            animation-timeline: view();
+            animation-range: cover 0% cover 20%;
+          }
+        }
+      }
+    }
+  </style>
+
+  <input id="is-term-open" type="checkbox" class="sr-only peer" checked />
+
+  <aside id="dock" class="fixed w-full bottom-0 m-4 peer-checked:hidden">
+    <div class="max-w-4xl mx-auto">
+      <label for="is-term-open" aria-label="Maximaze" tabindex="0" role="button"
+        class="block size-14 grid place-items-center bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg outline-zinc-400 outline-offset-1 focus-visible:outline-1">
+        >_
+      </label>
+    </div>
+  </aside>
+
+  <div id="term"
+    class="hidden peer-checked:block max-w-4xl mx-auto bg-zinc-900 md:border md:border-zinc-800 md:rounded-lg md:shadow-lg">
+    <header class="flex gap-1 flex-wrap px-5 pt-1 pb-0 border-b border-zinc-700">
+      <div class="group flex gap-2 items-center mr-2">
+        <button
+          class="size-3 grid place-items-center rounded-full border border-[#E0443E] bg-[#FF5F56] outline-zinc-400 outline-offset-1 focus-visible:outline-1"
+          aria-label="Close">
+          <span
+            class="absolute text-xs font-bold text-zinc-900 opacity-0 transition-opacity group-hover:opacity-100 group-has-focus-visible:opacity-100">
+            ×
+          </span>
+        </button>
+
+        <label for="is-term-open"
+          class="size-3 grid place-items-center rounded-full border border-[#DEA123] bg-[#FFBD2E] outline-zinc-400 outline-offset-1 focus-visible:outline-1"
+          aria-label="Minimize" tabindex="0" role="button">
+          <span
+            class="absolute text-xs font-bold text-zinc-900 opacity-0 transition-opacity group-hover:opacity-100 group-has-focus-visible:opacity-100">
+            -
+          </span>
+        </label>
+
+        <button
+          class="size-3 grid place-items-center rounded-full border border-[#1AAB29] bg-[#27C93F] outline-zinc-400 outline-offset-1 focus-visible:outline-1"
+          aria-label="Maximize"
+          onclick="document.fullscreenElement ? document.exitFullscreen() : term.requestFullscreen()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"
+            class="h-2.5 w-2.5 stroke-zinc-900 opacity-0 transition-opacity group-hover:opacity-100 group-has-focus-visible:opacity-100"
+            stroke-width="1" fill="none">
+            <path d="M3 6V3H6M6 9H9V6" />
+          </svg>
+        </button>
+      </div>
+
+      <a id="about-me" href="#about-me"
+        class="z-1 target:-mb-[1px] px-3 bg-zinc-900 text-zinc-300 rounded-t-md border border-b-0 border-zinc-700 target:border-zinc-600 outline-zinc-400 focus-visible:outline-1">
+        about me
+      </a>
+      <a id="last-read" href="#last-read"
+        class="z-1 target:-mb-[1px] px-3 bg-zinc-900 text-zinc-100 rounded-t-md border border-b-0 border-zinc-700 target:border-zinc-600 outline-zinc-400 focus-visible:outline-1">
+        last read
+      </a>
+      <a id="snippets" href="https://github.com/mtt-artis/site/tree/main/snippets" target="_blank"
+        class="z-1 target:-mb-[1px] px-3 bg-zinc-900 text-zinc-100 rounded-t-md border border-b-0 border-zinc-700 target:border-zinc-600 outline-zinc-400 focus-visible:outline-1">
+        snippets
+      </a>
+    </header>
+
+    <!-- TOFIX croll-smooth mess up w/ scroll padding to -->
+    <main class="p-6 pt-0 overflow-y-scroll md:h-[calc(100vh-6rem)]">
+      <section id="tab-about-me" class="pt-6">
+        <h1 class="sr-only">about me</h1>
+        <h2 class="font-semibold">$ <span class="text-lime-600">ssh</span> about.me</h2>
+        <p>Hi!
+          <br>
+          I'm a passionate Web Developer with years of experience helping industrial companies optimize their
+          processes through high-performance, reliable, and maintainable web applications.
+          <br><br>
+          Connect with me:
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://github.com">
+            <a href="https://github.com/mtt-artis" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">mtt-artis</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://linkedin.com">
+            <a href="https://github.com/mtt-artis" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">mtt-artis</a>
+          </li>
+        </ul>
+        </p>
+
+        <h2 class="font-semibold mt-4 xl:mt-6">
+          $ <span class="text-lime-600">cd</span> ~/skills && <span class="text-lime-600">tree</span> .</h2>
+        <nav class="text-zinc-400">
+          .
+          <ul>
+            <li class="w-fit">├── <a href="#frontend"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">frontend</a>
+            </li>
+            <li class="w-fit">├── <a href="#backend"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">backend</a>
+            </li>
+            <li class="w-fit">├── <a href="#frameworks"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">frameworks</a>
+            </li>
+            <li class="w-fit">├── <a href="#runtime"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">runtime</a>
+            </li>
+            <li class="w-fit">├── <a href="#database"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">database</a>
+            </li>
+            <li class="w-fit">├── <a href="#libraries"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">libraries</a>
+            </li>
+            <li class="w-fit">├── <a href="#tests"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">tests</a>
+            </li>
+            <li class="w-fit">├── <a href="#observability"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">observability</a>
+            </li>
+            <li class="w-fit">├── <a href="#cd"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">ci-cd</a>
+            </li>
+            <li class="w-fit">├── <a href="#containers"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">containers</a>
+            </li>
+            <li class="w-fit">└── <a href="#deploy"
+                class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">deploy</a>
+            </li>
+          </ul>
+        </nav>
+
+        <h2 id="frontend" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> frontend</h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://react.dev">
+            <a href="https://react.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">React</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://solidjs.com">
+            <a href="https://solidjs.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">SolidJS</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://qwik.dev">
+            <a href="https://qwik.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Qwik</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://astro.build">
+            <a href="https://astro.build" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Astro</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://tailwindcss.com">
+            <a href="https://tailwindcss.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Tailwindcss</a>
+          </li>
+        </ul>
+
+        <h2 id="backend" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">$ <span class="text-lime-600">cat</span>
+          backend</h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://elysiajs.com">
+            <a href="https://elysiajs.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              ElysiaJS
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://expressjs.com">
+            <a href="https://expressjs.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Express v5
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://orpc.unnoq.com">
+            <a href="https://orpc.unnoq.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              oRPC
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="frameworks" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">$ <span class="text-lime-600">cat</span>
+          frameworks</h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://start.solidjs.com">
+            <a href="https://start.solidjs.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Solid Start
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://tanstack.com">
+            <a href="https://tanstack.com/start" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              TanStack Start
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://sql-page.com">
+            <a href="https://sql-page.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              SqlPage
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://remix.run">
+            <a href="https://remix.run" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Remix
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://nextjs.org">
+            <a href="https://nextjs.org" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Next.js
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="runtime" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> runtime
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://nodejs.org">
+            <a href="https://nodejs.org" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Node</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://bun.sh">
+            <a href="https://bun.sh" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Bun</a>
+          </li>
+        </ul>
+
+        <h2 id="database" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">$ <span class="text-lime-600">cat</span>
+          database</h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://postgresql.org">
+            <a href="https://www.postgresql.org" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">PostgreSQL</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://sqlite.org">
+            <a href="https://sqlite.org" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">SQLite</a>
+          </li>
+        </ul>
+
+        <h2 id="libraries" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> libraries
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://kysely.dev">
+            <a href="https://kysely.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Kysely</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://better-auth.com">
+            <a href="https://better-auth.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Better Auth
+            </a>
+            /
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://arcticjs.dev">
+            <a href="https://arcticjs.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Artic
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://tanstack.com">
+            <a href="https://tanstack.com/query" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              TanStack Query
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://valibot.dev">
+            <a href="https://valibot.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Valibot</a>
+            /
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://zod.dev">
+            <a href="https://zod.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Zod</a>
+            /
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://arktype.io">
+            <a href="https://arktype.io" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Arktype</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://totaltypescript.com">
+            <a href="https://totaltypescript.com/ts-reset" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Ts-reset</a>
+          </li>
+        </ul>
+
+        <h2 id="tests" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> tests
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://vitest.dev">
+            <a href="https://vitest.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Vitest</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://bun.sh">
+            <a href="https://bun.com/docs/test" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">bun:test</a>
+          </li>
+        </ul>
+
+        <h2 id="observability" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> observability
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://grafana.com">
+            <a href="https://grafana.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Grafana</a>
+          </li>
+        </ul>
+
+        <h2 id="cd" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> ci-cd
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://jenkins.io">
+
+            <a href="https://www.jenkins.io" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Jenkins</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://github.com">
+            <a href="https://github.com/features/actions" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              GitHub Actions
+            </a>
+          </li>
+        </ul>
+
+        <h2 id="containers" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> containers
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://podman.io">
+            <a href="https://podman.io"
+              class="text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible: outline- hover:underline">Podman</a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://docker.com">
+            <a href="https://www.docker.com" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">Docker</a>
+          </li>
+        </ul>
+
+        <h2 id="deploy" class="font-semibold mt-4 xl:mt-6 scroll-mt-4">
+          $ <span class="text-lime-600">cat</span> deploy
+        </h2>
+        <ul class="space-y-1">
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://kubernetes.io">
+            <a href="https://kubernetes.io"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Kubernetes (k8s)
+            </a>
+          </li>
+          <li class="w-fit">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://docker.com">
+            <a href="https://docs.docker.com/compose" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              Docker Compose
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section id="tab-last-read" class="grid gap-6 relative pt-2">
+        <search class="py-2 bg-zinc-900 sticky top-0 z-1 flex gap-2 flex-wrap">
+          <label
+            class="px-3 bg-zinc-900 text-zinc-300 border border-zinc-700 cursor-pointer outline-zinc-400 has-checked:bg-zinc-800 has-focus-visible:outline-1">
+            <input type="radio" name="tag" value="all" class="sr-only" checked />
+            All
+          </label>
+          <label
+            class="px-3 bg-zinc-900 text-zinc-300 border border-zinc-700 cursor-pointer outline-zinc-400 has-checked:bg-zinc-800 has-focus-visible:outline-1">
+            <input type="radio" name="tag" value="ts" class="sr-only" />
+            typescript
+          </label>
+          <label
+            class="px-3 bg-zinc-900 text-zinc-300 border border-zinc-700 cursor-pointer outline-zinc-400 has-checked:bg-zinc-800 has-focus-visible:outline-1">
+            <input type="radio" name="tag" value="html" class="sr-only" />
+            html/css
+          </label>
+          <label
+            class="px-3 bg-zinc-900 text-zinc-300 border border-zinc-700 cursor-pointer outline-zinc-400 has-checked:bg-zinc-800 has-focus-visible:outline-1">
+            <input type="radio" name="tag" value="api" class="sr-only" />
+            API
+          </label>
+          <label
+            class="px-3 bg-zinc-900 text-zinc-300 border border-zinc-700 cursor-pointer outline-zinc-400 has-checked:bg-zinc-800 has-focus-visible:outline-1">
+            <input type="radio" name="tag" value="sql" class="sr-only" />
+            sql
+          </label>
+          <label
+            class="px-3 bg-zinc-900 text-zinc-300 border border-zinc-700 cursor-pointer outline-zinc-400 has-checked:bg-zinc-800 has-focus-visible:outline-1">
+            <input type="radio" name="tag" value="container" class="sr-only" />
+            container
+          </label>
+          <style>
+            :root {
+              interpolate-size: allow-keywords;
+            }
+
+            #tab-last-read {
+              @media (prefers-reduced-motion: no-preference) {
+                [data-tag] {
+                  transition: all 100ms ease-in-out;
+
+                  @starting-style {
+                    height: 0px;
+                  }
+                }
+              }
+
+              &:has(:checked:not([value="all"])) [data-tag] {
+                display: none;
+              }
+
+              &:has([value="ts"]:checked) [data-tag~="ts"],
+              &:has([value="html"]:checked) [data-tag~="html"],
+              &:has([value="api"]:checked) [data-tag~="api"],
+              &:has([value="sql"]:checked) [data-tag~="sql"],
+              &:has([value="container"]:checked) [data-tag~="container"] {
+                display: block;
+              }
+            }
+          </style>
+        </search>
+        <ul class="space-y-1">
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://standardschema.dev">
+            <a href="https://standardschema.dev" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://standardschema.dev
+            </a>
+          </li>
+          <li data-tag="html">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://joshwcomeau.com">
+            <a href="https://www.joshwcomeau.com/svg/friendly-introduction-to-svg" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://www.joshwcomeau.com/svg/friendly-introduction-to-svg
+            </a>
+          </li>
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://atriiy.dev">
+            <a href="https://www.atriiy.dev/blog/rolldown-module-loader-and-dependency-graph" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://www.atriiy.dev/blog/rolldown-module-loader-and-dependency-graph
+            </a>
+          </li>
+          <li data-tag="html">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://vercel.com">
+            <a href="https://vercel.com/design/guidelines" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://vercel.com/design/guidelines
+            </a>
+          </li>
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://developer.chrome.com">
+            <a href="https://developer.chrome.com/blog/new-in-web-ui-io-2025-recap" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://developer.chrome.com/blog/new-in-web-ui-io-2025-recap
+            </a>
+          </li>
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://hackmd.io">
+            <a href="https://hackmd.io/@0u1u3zEAQAO0iYWVAStEvw/ryFqqVVKp" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://hackmd.io/Mutations & Server Components
+            </a>
+          </li>
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://react.dev">
+            <a href="https://react.dev/learn/you-might-not-need-an-effect" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://react.dev/learn/you-might-not-need-an-effect
+            </a>
+          </li>
+          <li data-tag="sql">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://github.com">
+            <a href="https://github.com/ben-nour/SQL-tips-and-tricks" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://github.com/ben-nour/SQL-tips-and-tricks
+            </a>
+          </li>
+          <li data-tag="api">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://smudge.ai">
+            <a href="https://smudge.ai/blog/ratelimit-algorithms" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://smudge.ai/blog/ratelimit-algorithms
+            </a>
+          </li>
+          <li data-tag="html">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://builder.io">
+            <a href="https://www.builder.io/blog/view-transitions" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://www.builder.io/blog/view-transitions
+            </a>
+          </li>
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://builder.io">
+            <a href="https://www.builder.io/blog/good-vs-bad-refactoring" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://www.builder.io/blog/good-vs-bad-refactoring
+            </a>
+          </li>
+          <li data-tag="ts">
+            <img class="inline size-4 mr-1"
+              src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://tkdodo.eu">
+            <a href="https://tkdodo.eu/blog/practical-react-query" target="_blank"
+              class="break-all text-zinc-400 outline-zinc-400 outline-offset-3 focus-visible:outline-1 hover:underline">
+              https://tkdodo.eu/blog/practical-react-query
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>
